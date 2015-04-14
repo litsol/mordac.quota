@@ -1,0 +1,3 @@
+graft src/mordac
+graft docs/
+include *.cfg *.rst *.in

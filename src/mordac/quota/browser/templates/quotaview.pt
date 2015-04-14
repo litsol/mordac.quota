@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+  <body>
+    <metal:content-core fill-slot="content-core">
+      <h1>
+	<strong>The total is: <span tal:content="view/total">total</span></strong>
+      </h1>
+      <table  class="listing pat-tablesorter" id="quota" tal:condition="view/isset">
+	<thead>
+	  <tr>
+            <th>URL</th>
+            <th>Size</th>
+            <th>Type</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr tal:repeat="obj view/get_objects">
+	    <td tal:define="url obj/url;">
+	      <a href=""
+                 tal:attributes="href url"
+                 tal:content="url">
+                Mordec
+	      </a>
+	    </td>
+            <td tal:content="obj/size">size</td>
+            <td tal:content="obj/type">size</td>
+	  </tr>
+	</tbody>
+      </table>
+    </metal:content-core>
+  </body>
+</html>

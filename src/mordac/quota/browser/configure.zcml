@@ -1,0 +1,46 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="mordac.quota">
+
+    <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
+    <include package="z3c.jbot" file="meta.zcml" />
+    <browser:jbot
+        directory="overrides"
+        layer="mordac.quota.interfaces.IMordacQuotaLayer"
+        />
+
+    <!-- Publish static files -->
+    <browser:resourceDirectory
+        name="mordac.quota"
+        directory="static"
+        />
+
+    <browser:page
+        name="demoview"
+        for="*"
+        class=".views.DemoView"
+        template="templates/demoview.pt"
+        layer="mordac.quota.interfaces.IMordacQuotaLayer"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        name="demoview"
+        for="*"
+        class=".views.DemoView"
+        template="templates/demoview.pt"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        name="quotaview"
+        for="*"
+        layer="mordac.quota.interfaces.IMordacQuotaLayer"
+        class=".views.QuotaView"
+        template="templates/quotaview.pt"
+        permission="zope2.ViewManagementScreens"
+        />
+
+</configure>

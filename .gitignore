@@ -1,0 +1,17 @@
+*.pyc
+*.pyo
+*~
+.installed.cfg
+
+bin
+buildout-cache
+develop-eggs
+include
+lib
+lib64
+parts
+share
+
+src/mordac.quota.egg-info
+
+# finis
