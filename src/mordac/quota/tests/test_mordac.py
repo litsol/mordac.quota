@@ -3,6 +3,7 @@ import random
 import string
 import StringIO
 import unittest
+import Missing
 from plone import api
 from traceback import print_exc
 from plone.app.testing import logout
@@ -199,4 +200,6 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
         self.assertEqual('http://nohost/plone/doc', obj['url'])
         self.assertEqual('Document', obj['type'])
         self.assertEqual('0 KB', obj['size'])
+        self.assertEqual(Missing.Value, obj['state'])
 # finis
+

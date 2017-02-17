@@ -16,6 +16,7 @@
             <th>URL</th>
             <th>Size</th>
             <th>Type</th>
+            <th>State</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -28,7 +29,8 @@
 	      </a>
 	    </td>
             <td tal:content="obj/size">size</td>
-            <td tal:content="obj/type">size</td>
+            <td tal:content="obj/type">type</td>
+            <td tal:content="obj/state">state</td>
 	  </tr>
 	</tbody>
       </table>

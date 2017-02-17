@@ -1,3 +1,7 @@
+2017-02-17  Michael Guravage  <guravage@weddell.itf.cwi.nl>
+
+	* test_mordac.py (MordacQuotaViewIntegrationTest.test_quota_objects): Add test for object state.
+
 2015-04-14  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* test_mordac.py: Initial Commit
