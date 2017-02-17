@@ -202,4 +202,3 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
         self.assertEqual('0 KB', obj['size'])
         self.assertEqual(Missing.Value, obj['state'])
 # finis
-

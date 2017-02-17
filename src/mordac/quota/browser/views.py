@@ -48,9 +48,9 @@ class QuotaView(BrowserView):
         current_path = "/".join(self.context.getPhysicalPath())
 
         brains = portal_catalog(path=current_path)
-        
+
         for brain in brains:
-            #for i in brain.__record_schema__.items(): print i
+            # for i in brain.__record_schema__.items(): print i
             results.append({
                 'url': brain.getURL(),
                 'size': brain.getObjSize,
