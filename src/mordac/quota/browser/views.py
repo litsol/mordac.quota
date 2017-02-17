@@ -46,7 +46,6 @@ class QuotaView(BrowserView):
         results = []
         portal_catalog = api.portal.get_tool('portal_catalog')
         current_path = "/".join(self.context.getPhysicalPath())
-
         brains = portal_catalog(path=current_path)
 
         for brain in brains:
@@ -56,6 +55,7 @@ class QuotaView(BrowserView):
                 'size': brain.getObjSize,
                 'type': brain.portal_type,
                 'state': brain.review_state,
+                'roles': ', '.join([i[0] + ': ' + ', '.join(i[1]) for i in brain.getObject().get_local_roles()])
                 })
         return results
 

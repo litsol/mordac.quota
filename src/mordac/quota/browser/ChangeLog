@@ -2,6 +2,7 @@
 
 	* views.py (QuotaView.get_objects): Append object review state to list of results.
 	(QuotaView.get_objects): Correct flake8 complaints.
+	(QuotaView.get_objects): Append object local roles to list of results.
 
 2015-04-14  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 

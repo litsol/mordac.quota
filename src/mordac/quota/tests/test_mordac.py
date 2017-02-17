@@ -201,4 +201,5 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
         self.assertEqual('Document', obj['type'])
         self.assertEqual('0 KB', obj['size'])
         self.assertEqual(Missing.Value, obj['state'])
+        self.assertEqual('test_user_1_: Owner', obj['roles'])
 # finis

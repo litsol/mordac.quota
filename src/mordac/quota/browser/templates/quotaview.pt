@@ -17,6 +17,7 @@
             <th>Size</th>
             <th>Type</th>
             <th>State</th>
+            <th>Local Roles</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -31,6 +32,7 @@
             <td tal:content="obj/size">size</td>
             <td tal:content="obj/type">type</td>
             <td tal:content="obj/state">state</td>
+            <td tal:content="obj/roles">roles</td>
 	  </tr>
 	</tbody>
       </table>

@@ -1,6 +1,7 @@
 2017-02-17  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* quotaview.pt: Add object review state.
+	Add object local roles.
 
 2015-03-16  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 

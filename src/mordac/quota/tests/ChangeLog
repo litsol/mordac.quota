@@ -2,6 +2,7 @@
 
 	* test_mordac.py (MordacQuotaViewIntegrationTest.test_quota_objects): Add test for object state.
 	(MordacQuotaViewIntegrationTest.test_quota_objects): Correct flake8 complaints.
+	(MordacQuotaViewIntegrationTest.test_quota_objects): Add test for object local roles.
 
 2015-04-14  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
