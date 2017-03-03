@@ -8,33 +8,29 @@
   <body>
     <metal:content-core fill-slot="content-core">
       <h1>
-	<strong>The total is: <span tal:content="view/total">total</span></strong>
+        <strong>The total is: <span tal:content="view/total">total</span></strong>
       </h1>
       <table  class="listing pat-tablesorter" id="quota" tal:condition="view/isset">
-	<thead>
-	  <tr>
+        <thead>
+          <tr>
             <th>URL</th>
             <th>Size</th>
             <th>Type</th>
             <th>State</th>
             <th>Local Roles</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  <tr tal:repeat="obj view/get_objects">
-	    <td tal:define="url obj/url;">
-	      <a href=""
-                 tal:attributes="href url"
-                 tal:content="url">
-                Mordec
-	      </a>
-	    </td>
-            <td tal:content="obj/size">size</td>
-            <td tal:content="obj/type">type</td>
-            <td tal:content="obj/state">state</td>
-            <td tal:content="obj/roles">roles</td>
-	  </tr>
-	</tbody>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="obj view/get_objects">
+            <td tal:define="url obj/url;">
+              <a href="${url}"> ${url} </a>
+            </td>
+            <td> ${obj/size}  </td>
+            <td> ${obj/type}  </td>
+            <td> ${obj/state} </td>
+            <td> ${obj/roles} </td>
+          </tr>
+        </tbody>
       </table>
     </metal:content-core>
   </body>
