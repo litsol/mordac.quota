@@ -1,3 +1,8 @@
+2017-03-24  Michael Guravage  <guravage@weddell.itf.cwi.nl>
+
+	* views.py (QuotaView.get_objects): Removed local_roles.
+	They are still there in the local_roles branch.
+
 2017-02-17  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* views.py (QuotaView.get_objects): Append object review state to list of results.

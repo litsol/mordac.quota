@@ -1,3 +1,8 @@
+2017-03-24  Michael Guravage  <guravage@weddell.itf.cwi.nl>
+
+	* test_mordac.py: Removed local_role.
+	They are still there in the local_role branch.
+
 2017-02-17  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* test_mordac.py (MordacQuotaViewIntegrationTest.test_quota_objects): Add test for object state.

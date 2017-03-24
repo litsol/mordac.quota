@@ -55,7 +55,6 @@ class QuotaView(BrowserView):
                 'size': brain.getObjSize,
                 'type': brain.portal_type,
                 'state': brain.review_state,
-                'roles': ', '.join([i[0] + ': ' + ', '.join(i[1]) for i in brain.getObject().get_local_roles()])
                 })
         return results
 

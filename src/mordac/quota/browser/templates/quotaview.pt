@@ -17,7 +17,6 @@
             <th>Size</th>
             <th>Type</th>
             <th>State</th>
-            <th>Local Roles</th>
           </tr>
         </thead>
         <tbody>
@@ -28,7 +27,6 @@
             <td> ${obj/size}  </td>
             <td> ${obj/type}  </td>
             <td> ${obj/state} </td>
-            <td> ${obj/roles} </td>
           </tr>
         </tbody>
       </table>

@@ -1,3 +1,8 @@
+2017-03-24  Michael Guravage  <guravage@weddell.itf.cwi.nl>
+
+	* quotaview.pt: Removed local_roles.
+	They are still there in the local_roles branch.
+
 2017-03-03  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* quotaview.pt: Use updated template syntax.
