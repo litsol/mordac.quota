@@ -14,13 +14,16 @@ from mordac.quota.testing import MORDAC_QUOTA_INTEGRATION_TESTING
 # from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
 
+
 def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
     '''Return a random selection of characters and digits. '''
+
     return ''.join(random.choice(chars) for x in range(size))
 
 
 def print_exception():
     ''' Pretty print the exception. '''
+
     f = StringIO.StringIO()
     print_exc(file=f)
     error_mess = f.getvalue().splitlines()
@@ -32,8 +35,10 @@ def print_exception():
 
 class QuotaViewTestAPI():
     ''' Common Test functionality. '''
+
     def get_quota_view(self):
         ''' Retrieve the quota view. '''
+
         return api.content.get_view(
             name='quotaview',
             context=self.portal,
@@ -41,13 +46,15 @@ class QuotaViewTestAPI():
 
     def get_link_view(self):
         ''' Retrieve the link view. '''
+
         return api.content.get_view(
             name='linkview',
             context=self.portal,
             request=self.request,)
-    
+
     def create_document(self, docId='doc'):
         ''' Create an empty document. '''
+
         return api.content.create(
             container=self.portal,
             type='Document',
@@ -55,8 +62,9 @@ class QuotaViewTestAPI():
             title='A Document')
 
     def print_to_devnull(self, s):
+        ''' '''
         bitbucket = open(os.devnull, 'w')
-        print >>bitbucket,  s
+        print >>bitbucket, s
         bitbucket.close()
 
 
@@ -64,43 +72,51 @@ class MordacQuotaViewAcquisitionTraversalIntegrationTest(unittest.TestCase,
                                                          QuotaViewTestAPI):
     ''' Test whether the view exists, whether we can acquire it
         and whether we can traverse it by various means. '''
+
     layer = MORDAC_QUOTA_INTEGRATION_TESTING
 
     def setUp(self):
         ''' Get the portal and request objects.'''
+
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_quota_view_exists(self):
         ''' Ascertain whether the view exists. '''
+
         view = self.get_quota_view()
         self.assertIsNotNone(view)
 
     def test_quota_browserlayer_interface_is_registered(self):
         ''' Test that IMordacQuotaLayer is registered. '''
+
         from mordac.quota.interfaces import IMordacQuotaLayer
         from plone.browserlayer import utils
         self.assertIn(IMordacQuotaLayer, utils.registered_layers())
 
     def test_view_with_browser_layer(self):
         ''' Assert the view returns something. '''
+
         view = self.get_quota_view()
         view = view.aq_inner.__of__(self.portal)
         self.assertTrue(view())
 
     def test_view_with_restricted_traverse(self):
         ''' Assert that restricted traversal returns something. '''
+
         view = self.portal.restrictedTraverse('quotaview')
         self.assertTrue(view())
 
     def test_view_with_unrestricted_traverse(self):
         ''' Assert that unrestricted traversal returns something. '''
+
         view = self.portal.unrestrictedTraverse('quotaview')
         self.assertTrue(view())
 
     def test_view_html_structure(self):
         ''' Assert correct html structure. '''
+
         import lxml
         view = self.get_quota_view()
         view = view.aq_inner.__of__(self.portal)
@@ -115,6 +131,7 @@ class MordacQuotaViewSecurityIntegrationTest(unittest.TestCase,
 
     def setUp(self):
         ''' Get the portal and request objects.'''
+
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -122,6 +139,7 @@ class MordacQuotaViewSecurityIntegrationTest(unittest.TestCase,
     def test_quota_member_role(self):
         ''' Apply the quotaview to an empty site;
             The view should not be accessable to non Manager roles. '''
+
         setRoles(self.portal, TEST_USER_ID, ['Member'])
         user = getSecurityManager().getUser()
         roles = ['Member', 'Authenticated']
@@ -135,6 +153,7 @@ class MordacQuotaViewSecurityIntegrationTest(unittest.TestCase,
     def test_quota_anonymous_role(self):
         ''' Apply the quotaview to an empty site;
             The view should not be accessable to an anonymous user. '''
+
         logout()
         with self.assertRaises(Unauthorized) as cm:
             self.portal.restrictedTraverse('quotaview')
@@ -144,6 +163,7 @@ class MordacQuotaViewSecurityIntegrationTest(unittest.TestCase,
     def test_quota_manager_role(self):
         ''' Apply the quotaview to an empty site;
             The view should be accessable to the Manager role. '''
+
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         user = getSecurityManager().getUser()
         roles = ['Manager', 'Authenticated']
@@ -154,10 +174,12 @@ class MordacQuotaViewSecurityIntegrationTest(unittest.TestCase,
 class MordacQuotaViewIntegrationTest(unittest.TestCase,
                                      QuotaViewTestAPI):
     ''' Test whether the view actually works. '''
+
     layer = MORDAC_QUOTA_INTEGRATION_TESTING
 
     def setUp(self):
         ''' Get the portal and request objects.'''
+
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -165,12 +187,14 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
     def test_quota_empty_site(self):
         ''' Apply the quotaview to an empty site;
             the total returned should be zero bytes. '''
+
         view = self.get_quota_view()
         self.assertEqual('0 B', view.total())
 
     def test_quota_empty_document(self):
         ''' Create an empty document at the root of an empty site.
             The total returned should be zero bytes. '''
+
         view = self.get_quota_view()
         self.create_document()
         self.assertEqual('0 B', view.total())
@@ -179,6 +203,7 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
         ''' Create a document at the root of an empty
             site and populate it with two kilobytes
             of content. The view should confirm the size. '''
+
         view = self.get_quota_view()
         doc = self.create_document()
         doc.edit(text_format='html', text=random_generator(size=2048))
@@ -188,6 +213,7 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
         ''' Create two documents at the root of an empty
             site and populate them with two kilobytes of
              content each. The view should confirm the size. '''
+
         view = self.get_quota_view()
         rtext = random_generator(size=2048)
         self.create_document(docId='doc1').edit(text_format='html', text=rtext)
@@ -208,9 +234,11 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
         self.assertEqual('0 KB', obj['size'])
         self.assertEqual(Missing.Value, obj['state'])
 
+
 class MordacLinkViewIntegrationTest(unittest.TestCase,
-                                     QuotaViewTestAPI):
+                                    QuotaViewTestAPI):
     ''' Test whether the link view works. '''
+
     layer = MORDAC_QUOTA_INTEGRATION_TESTING
 
     def setUp(self):
@@ -220,21 +248,27 @@ class MordacLinkViewIntegrationTest(unittest.TestCase,
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_link_view_empty_document(self):
+        ''' '''
+
         view = self.get_link_view()
         self.create_document()
         links = view.get_links()
         self.assertEqual(list(links), [])
 
     def test_link_view(self):
+        ''' '''
+
         body = """
         <p> Help me Spock </p>
-        <p>internal<a href="https://www.google.com" data-linktype="external" data-val="https://www.google.com">link</a></p>
+        <p>internal<a href="https://www.google.com" data-linktype="external"
+           data-val="https://www.google.com">link</a></p>
         """
         view = self.get_link_view()
         document = self.create_document(docId='doc42')
         document.edit(text_format='html', text=body)
         links = view.get_links()
-        self.assertEqual(list(links), [('http://nohost/plone/doc42', ['https://www.google.com'])])
-        
-# finis
+        self.assertEqual(list(links),
+                         [('http://nohost/plone/doc42',
+                           ['https://www.google.com'])])
 
+# finis

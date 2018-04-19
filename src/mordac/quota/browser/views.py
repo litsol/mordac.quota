@@ -33,6 +33,7 @@ class DemoView(BrowserView):
 
         return results
 
+
 class LinkView(BrowserView):
     """The Link View.
        Returns a list of tuples where the first and second
@@ -41,40 +42,50 @@ class LinkView(BrowserView):
     """
 
     def get_links(self):
+        """ """
+
         portal_catalog = api.portal.get_tool('portal_catalog')
-	for brain in portal_catalog.searchResults(): # This queries cataloged brain of every content object                                                                                                                                                           
+        # This queries cataloged brain of every content object
+        for brain in portal_catalog.searchResults():
             path = brain.getURL()
             links = self._brain_links(brain)
             if links:
-                yield (path,links)
+                yield (path, links)
 
     def _brain_links(self, brain):
         """ Checks Links """
 
-	urls=[]
+        urls = []
         try:
             obj = brain.getObject()
-            # Call to the content object will render its default view and return it as text 
-            # Note: this will be slow - it equals to load every page from your Plone site
+            # Call to the content object will render its default view
+            # and return it as text
+            # Note: this will be slow - it equals to load every page
+            # from your Plone site
             rendered = obj()
-            soup = bs(rendered, 'lxml')	
+            soup = bs(rendered, 'lxml')
             elements = soup.find_all('a', {'data-linktype': 'external'})
             urls = [e.get_attribute_list('data-val').pop() for e in elements]
         except:
-            pass # Something may fail here if the content object is broken                                                                                                                                                                                                            
+            pass  # Something may fail here if the content object is broken
         return urls
-    
+
 
 @implementer(IPublishTraverse)
 class QuotaView(BrowserView):
     """ This is the quota view """
-#     implements(IPublishTraverse)
+
+# implements(IPublishTraverse)
 
     def publishTraverse(self, request, name):
+        """ """
+
         self.verbose = str(name)
         return self
 
     def get_objects(self):
+        """ """
+
         results = []
         portal_catalog = api.portal.get_tool('portal_catalog')
         current_path = "/".join(self.context.getPhysicalPath())
@@ -87,10 +98,12 @@ class QuotaView(BrowserView):
                 'size': brain.getObjSize,
                 'type': brain.portal_type,
                 'state': brain.review_state,
-                })
+            })
         return results
 
     def human_format(self, num):
+        """ """
+
         magnitude = 0
         while num >= 1024:
             magnitude += 1
@@ -99,12 +112,15 @@ class QuotaView(BrowserView):
         return '%.0f %sB' % (num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
 
     def getSize(self, brain):
-        return float(brain.getObjSize.split()[0])*(
-            brain.getObjSize.endswith('KB') and 1024
-            or brain.getObjSize.endswith('MB') and 1024*1024
-            or 1)
+        """ """
+
+        return float(brain.getObjSize.split()[0]) * \
+            ((brain.getObjSize.endswith('KB') and 1024) or
+             (brain.getObjSize.endswith('MB') and 1024 * 1024) or 1)
 
     def total(self):
+        """ """
+
         portal_catalog = api.portal.get_tool('portal_catalog')
         current_path = "/".join(self.context.getPhysicalPath())
         brains = portal_catalog(path=current_path)
@@ -112,6 +128,8 @@ class QuotaView(BrowserView):
             sum([self.getSize(brain) for brain in brains]))
 
     def isset(self):
+        """ """
+
         return hasattr(self, 'verbose')
 
     # def __call__(self):
