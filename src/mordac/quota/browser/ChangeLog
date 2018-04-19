@@ -1,3 +1,9 @@
+2018-04-19  Michael Guravage  <guravage@weddell.itf.cwi.nl>
+
+	* configure.zcml: Added the zcml for linkview
+
+	* views.py (LinkView): Added LinkView class
+
 2017-03-24  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* views.py (QuotaView.get_objects): Removed local_roles.

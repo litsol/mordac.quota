@@ -43,4 +43,12 @@
         permission="zope2.ViewManagementScreens"
         />
 
+    <browser:page
+        name="linkview"
+        for="*"
+        class=".views.LinkView"
+        layer="mordac.quota.interfaces.IMordacQuotaLayer"
+        permission="zope2.View"
+        />
+
 </configure>

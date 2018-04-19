@@ -14,7 +14,6 @@ from mordac.quota.testing import MORDAC_QUOTA_INTEGRATION_TESTING
 # from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
 
-
 def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
     '''Return a random selection of characters and digits. '''
     return ''.join(random.choice(chars) for x in range(size))
@@ -40,6 +39,13 @@ class QuotaViewTestAPI():
             context=self.portal,
             request=self.request,)
 
+    def get_link_view(self):
+        ''' Retrieve the link view. '''
+        return api.content.get_view(
+            name='linkview',
+            context=self.portal,
+            request=self.request,)
+    
     def create_document(self, docId='doc'):
         ''' Create an empty document. '''
         return api.content.create(
@@ -201,4 +207,34 @@ class MordacQuotaViewIntegrationTest(unittest.TestCase,
         self.assertEqual('Document', obj['type'])
         self.assertEqual('0 KB', obj['size'])
         self.assertEqual(Missing.Value, obj['state'])
+
+class MordacLinkViewIntegrationTest(unittest.TestCase,
+                                     QuotaViewTestAPI):
+    ''' Test whether the link view works. '''
+    layer = MORDAC_QUOTA_INTEGRATION_TESTING
+
+    def setUp(self):
+        ''' Get the portal and request objects.'''
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+    def test_link_view_empty_document(self):
+        view = self.get_link_view()
+        self.create_document()
+        links = view.get_links()
+        self.assertEqual(list(links), [])
+
+    def test_link_view(self):
+        body = """
+        <p> Help me Spock </p>
+        <p>internal<a href="https://www.google.com" data-linktype="external" data-val="https://www.google.com">link</a></p>
+        """
+        view = self.get_link_view()
+        document = self.create_document(docId='doc42')
+        document.edit(text_format='html', text=body)
+        links = view.get_links()
+        self.assertEqual(list(links), [('http://nohost/plone/doc42', ['https://www.google.com'])])
+        
 # finis
+

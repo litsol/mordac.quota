@@ -3,6 +3,7 @@ from plone import api
 from zope.interface import implementer
 # from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
+from bs4 import BeautifulSoup as bs
 
 import logging
 logger = logging.getLogger(__name__)
@@ -32,6 +33,37 @@ class DemoView(BrowserView):
 
         return results
 
+class LinkView(BrowserView):
+    """The Link View.
+       Returns a list of tuples where the first and second
+       member of each tuple are a url and a list of external links
+       from that url respectively.
+    """
+
+    def get_links(self):
+        portal_catalog = api.portal.get_tool('portal_catalog')
+	for brain in portal_catalog.searchResults(): # This queries cataloged brain of every content object                                                                                                                                                           
+            path = brain.getURL()
+            links = self._brain_links(brain)
+            if links:
+                yield (path,links)
+
+    def _brain_links(self, brain):
+        """ Checks Links """
+
+	urls=[]
+        try:
+            obj = brain.getObject()
+            # Call to the content object will render its default view and return it as text 
+            # Note: this will be slow - it equals to load every page from your Plone site
+            rendered = obj()
+            soup = bs(rendered, 'lxml')	
+            elements = soup.find_all('a', {'data-linktype': 'external'})
+            urls = [e.get_attribute_list('data-val').pop() for e in elements]
+        except:
+            pass # Something may fail here if the content object is broken                                                                                                                                                                                                            
+        return urls
+    
 
 @implementer(IPublishTraverse)
 class QuotaView(BrowserView):
