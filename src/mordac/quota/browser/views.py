@@ -44,8 +44,9 @@ class LinkView(BrowserView):
     def get_links(self):
         ''' '''
         portal_catalog = api.portal.get_tool('portal_catalog')
-        # This queries cataloged brain of every content object
-        for brain in portal_catalog.searchResults():
+        # This queries cataloged brain of every content object in the path
+        current_path = "/".join(self.context.getPhysicalPath())
+        for brain in portal_catalog.searchResults(path=current_path):
             path = brain.getURL()
             links = self._brain_links(brain)
             if links:

@@ -1,11 +1,13 @@
 2018-04-20  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
+	* views.py (LinkView.get_links): Add path to catalog query.
+
 	* configure.zcml: Added linkjson view; which calls returns not
 	HTML but a json string.
 
 	* views.py (LinkJson): Add LinkJson class. Its' a subclass of
 	LinkView. Its only purpose is to redefine the __call__ special
-	method. 
+	method.
 
 	* configure.zcml: Added linkview page template.
 
