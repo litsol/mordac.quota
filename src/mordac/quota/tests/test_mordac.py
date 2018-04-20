@@ -49,6 +49,13 @@ class QuotaViewTestAPI():
             context=self.portal,
             request=self.request,)
 
+    def get_link_json(self):
+        ''' Retrieve the link json view. '''
+        return api.content.get_view(
+            name='linkjson',
+            context=self.portal,
+            request=self.request,)
+
     def create_document(self, docId='doc'):
         ''' Create an empty document. '''
         return api.content.create(
@@ -249,7 +256,7 @@ class MordacLinkViewIntegrationTest(unittest.TestCase,
                            ['https://www.google.com'])])
 
     def test_link_view_html(self):
-        ''' Check whether the rendered HTML has the external link. '''
+        ''' Check whether the rendered HTML has a span element. '''
         body = '''
         <p> Help me Spock </p>
         <p>internal<a href="https://www.google.com" data-linktype="external"
@@ -259,8 +266,23 @@ class MordacLinkViewIntegrationTest(unittest.TestCase,
         document = self.create_document(docId='doc42')
         document.edit(text_format='html', text=body)
         soup = BeautifulSoup(view(), 'html.parser')
-        self.assertTrue(soup.body.find_all('li'))
+        self.assertTrue(soup.body.find_all('span'))
         # with open('/tmp/mordac.html', 'wb') as location:
         #     print >> location, soup.prettify().encode('utf-8')
+
+    def test_link_json_view(self):
+        ''' One external link '''
+        body = '''
+        <p> Help me Spock </p>
+        <p>internal<a href="https://www.google.com" data-linktype="external"
+        data-val="https://www.google.com">link</a></p>
+        '''
+        view = self.get_link_json()
+        document = self.create_document(docId='doc42')
+        document.edit(text_format='html', text=body)
+        links = view()
+        self.assertEqual(
+            links,
+            '[["http://nohost/plone/doc42", ["https://www.google.com"]]]')
 
 # finis

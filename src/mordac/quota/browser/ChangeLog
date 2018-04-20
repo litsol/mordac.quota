@@ -1,5 +1,12 @@
 2018-04-20  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
+	* configure.zcml: Added linkjson view; which calls returns not
+	HTML but a json string.
+
+	* views.py (LinkJson): Add LinkJson class. Its' a subclass of
+	LinkView. Its only purpose is to redefine the __call__ special
+	method. 
+
 	* configure.zcml: Added linkview page template.
 
 	* views.py: Added missing function docstrings.

@@ -52,4 +52,12 @@
         permission="zope2.ViewManagementScreens"
         />
 
+    <browser:page
+        name="linkjson"
+        for="*"
+        layer="mordac.quota.interfaces.IMordacQuotaLayer"
+        class=".views.LinkJson"
+        permission="zope2.ViewManagementScreens"
+        />
+
 </configure>

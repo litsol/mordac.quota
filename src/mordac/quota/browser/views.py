@@ -4,6 +4,7 @@ from zope.interface import implementer
 # from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 from bs4 import BeautifulSoup
+import json
 
 import logging
 logger = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ class LinkView(BrowserView):
        member of each tuple are a url and a list of external links
        from that url respectively.
     '''
+
     def get_links(self):
         ''' '''
         portal_catalog = api.portal.get_tool('portal_catalog')
@@ -65,6 +67,15 @@ class LinkView(BrowserView):
         except:
             pass  # Something may fail here if the content object is broken
         return urls
+
+
+class LinkJson(LinkView, BrowserView):
+    ''' Subclass LinkView and with sole purpose
+        to redefine the __call__ special method. '''
+
+    def __call__(self):
+        self.request.response.setHeader("Content-type", "application/json")
+        return json.dumps(list(self.get_links()))
 
 
 @implementer(IPublishTraverse)

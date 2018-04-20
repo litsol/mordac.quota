@@ -1,6 +1,8 @@
 2018-04-20  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* test_mordac.py (MordacLinkViewIntegrationTest.test_link_view_html): Check rendered HTML.
+	(MordacLinkViewIntegrationTest.test_link_json_view): Add a test to
+	check the new linkjson view.
 
 2018-04-19  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
