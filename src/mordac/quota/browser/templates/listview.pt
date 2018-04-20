@@ -8,9 +8,8 @@
   <body>
     <metal:content-core fill-slot="content-core">
       <h1>
-        <strong>Mordac List View</strong>
+        <strong>Mordac External Links View</strong>
       </h1>
-
       <ol>
 	<li tal:repeat="link view/get_links">
 	  <span tal:define="fn   python: link[0];

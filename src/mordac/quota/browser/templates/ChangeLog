@@ -1,3 +1,7 @@
+2018-04-20  Michael Guravage  <guravage@weddell.itf.cwi.nl>
+
+	* listview.pt: Corrected the title.
+
 2017-03-24  Michael Guravage  <guravage@weddell.itf.cwi.nl>
 
 	* quotaview.pt: Removed local_roles.
