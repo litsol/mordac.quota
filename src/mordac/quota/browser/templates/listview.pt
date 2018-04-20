@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+  <body>
+    <metal:content-core fill-slot="content-core">
+      <h1>
+        <strong>Mordac List View</strong>
+      </h1>
+
+      <ol>
+	<li tal:repeat="link view/get_links">
+	  <span tal:define="fn   python: link[0];
+			    urls python: link[1]">
+	    <a href="${fn}"> ${fn} </a>
+	    <ol>
+	      <li tal:repeat="url urls">
+		<a href="${url}"> ${url} </a>
+	      </li>
+	    </ol>
+	  </span>
+	</li>
+      </ol>
+    </metal:content-core>
+  </body>
+</html>
+<!--- finis --->

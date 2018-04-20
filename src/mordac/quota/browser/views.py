@@ -3,15 +3,14 @@ from plone import api
 from zope.interface import implementer
 # from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup
 
 import logging
 logger = logging.getLogger(__name__)
 
 
 class DemoView(BrowserView):
-    """ This is a sample browser view with one method.
-    """
+    ''' This is a sample browser view with one method. '''
 
     def get_types(self):
         """Returns a dict with type names and the amount of items
@@ -35,15 +34,13 @@ class DemoView(BrowserView):
 
 
 class LinkView(BrowserView):
-    """The Link View.
+    '''The Link View.
        Returns a list of tuples where the first and second
        member of each tuple are a url and a list of external links
        from that url respectively.
-    """
-
+    '''
     def get_links(self):
-        """ """
-
+        ''' '''
         portal_catalog = api.portal.get_tool('portal_catalog')
         # This queries cataloged brain of every content object
         for brain in portal_catalog.searchResults():
@@ -53,8 +50,7 @@ class LinkView(BrowserView):
                 yield (path, links)
 
     def _brain_links(self, brain):
-        """ Checks Links """
-
+        ''' Checks Links '''
         urls = []
         try:
             obj = brain.getObject()
@@ -63,7 +59,7 @@ class LinkView(BrowserView):
             # Note: this will be slow - it equals to load every page
             # from your Plone site
             rendered = obj()
-            soup = bs(rendered, 'lxml')
+            soup = BeautifulSoup(rendered, 'lxml')
             elements = soup.find_all('a', {'data-linktype': 'external'})
             urls = [e.get_attribute_list('data-val').pop() for e in elements]
         except:
@@ -73,19 +69,17 @@ class LinkView(BrowserView):
 
 @implementer(IPublishTraverse)
 class QuotaView(BrowserView):
-    """ This is the quota view """
+    ''' This is the quota view '''
 
 # implements(IPublishTraverse)
 
     def publishTraverse(self, request, name):
-        """ """
-
+        ''' '''
         self.verbose = str(name)
         return self
 
     def get_objects(self):
-        """ """
-
+        ''' Return a list of dictionaries - one for each object.'''
         results = []
         portal_catalog = api.portal.get_tool('portal_catalog')
         current_path = "/".join(self.context.getPhysicalPath())
@@ -102,8 +96,7 @@ class QuotaView(BrowserView):
         return results
 
     def human_format(self, num):
-        """ """
-
+        ''' Render the size in a human readable format. '''
         magnitude = 0
         while num >= 1024:
             magnitude += 1
@@ -112,15 +105,13 @@ class QuotaView(BrowserView):
         return '%.0f %sB' % (num, ['', 'K', 'M', 'G', 'T', 'P'][magnitude])
 
     def getSize(self, brain):
-        """ """
-
+        ''' Return an object's size. '''
         return float(brain.getObjSize.split()[0]) * \
             ((brain.getObjSize.endswith('KB') and 1024) or
              (brain.getObjSize.endswith('MB') and 1024 * 1024) or 1)
 
     def total(self):
-        """ """
-
+        ''' Tally the total. '''
         portal_catalog = api.portal.get_tool('portal_catalog')
         current_path = "/".join(self.context.getPhysicalPath())
         brains = portal_catalog(path=current_path)
@@ -128,8 +119,7 @@ class QuotaView(BrowserView):
             sum([self.getSize(brain) for brain in brains]))
 
     def isset(self):
-        """ """
-
+        ''' Ask if verbose attribute is set. '''
         return hasattr(self, 'verbose')
 
     # def __call__(self):

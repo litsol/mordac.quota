@@ -46,9 +46,10 @@
     <browser:page
         name="linkview"
         for="*"
-        class=".views.LinkView"
         layer="mordac.quota.interfaces.IMordacQuotaLayer"
-        permission="zope2.View"
+        class=".views.LinkView"
+        template="templates/listview.pt"
+        permission="zope2.ViewManagementScreens"
         />
 
 </configure>
